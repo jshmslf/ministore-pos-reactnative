@@ -1,10 +1,22 @@
+import PasswordInput from "@/components/PasswordInput";
 import { Input } from "@/components/ui/input";
 import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, Text } from "react-native";
+import { useState } from "react";
+import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RegisterPage() {
+    const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
+
+    const handleRegister = () => {
+        if (password !== confirmPassword) {
+            Alert.alert("Error", "Password do no match!")
+            return;
+        }
+    }
+
     return (
         <SafeAreaView className="flex-1 bg-background">
             <StatusBar style="dark" />
@@ -30,6 +42,13 @@ export default function RegisterPage() {
                         textContentType="emailAddress"
                         className="mb-4"
                     />
+
+                    {/* password */}
+
+                    <PasswordInput placeholder="Password" value={password} onChangeText={setPassword} />
+                    <PasswordInput placeholder="Confirm Password" value={confirmPassword} onChangeText={setConfirmPassword} />
+
+                    {/* 
                     <Input
                         placeholder="Password"
                         autoComplete="password"
@@ -37,15 +56,16 @@ export default function RegisterPage() {
                         secureTextEntry
                         className="mb-4"
                     />
+
                     <Input
                         placeholder="Confirm Password"
                         autoComplete="password"
                         textContentType="password"
                         secureTextEntry
                         className="mb-4"
-                    />
+                    /> */}
 
-                    <Pressable className="bg-accent py-3 rounded-lg">
+                    <Pressable onPress={handleRegister} className="bg-accent py-3 rounded-lg">
                         <Text className="text-white text-center font-semibold text-lg">
                             Sign Up
                         </Text>
