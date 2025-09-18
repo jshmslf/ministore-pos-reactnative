@@ -13,11 +13,11 @@ export const getProducts = async (req: AuthRequest, res: Response) => {
 
 export const addProduct = async (req: AuthRequest, res: Response) => {
     try {
-        const { name, catergory, srp, sellingPrice, stock } = req.body;
+        const { name, category, srp, sellingPrice, stock } = req.body;
         const product = new Product({
             user: req.user.id,
             name,
-            catergory,
+            category,
             srp,
             sellingPrice,
             stock,

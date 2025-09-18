@@ -1,11 +1,11 @@
-import API from "./api.ts";
+import API from "./api";
 
 export const registerUser = async (
     firstName: string,
     middleName: string | undefined,
     lastName: string,
     email: string,
-    passwordHash: string,
+    password: string,
     storeName: string,
     birthday?: string,
     address?: string
@@ -15,7 +15,7 @@ export const registerUser = async (
         middleName,
         lastName,
         email,
-        passwordHash,
+        password,
         storeName,
         birthday,
         address
@@ -23,7 +23,7 @@ export const registerUser = async (
     return data;
 }
 
-export const loginUser = async (email: string, passwordHash: string) => {
-    const { data } = await API.post("auth/login", { email, passwordHash });
+export const loginUser = async (email: string, password: string) => {
+    const { data } = await API.post("auth/login", { email, password });
     return data;
 }

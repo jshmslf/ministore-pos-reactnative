@@ -5,7 +5,7 @@ import User from "../models/User.ts";
 
 export const register = async (req: Request, res: Response) => {
     const {
-        firstName, middleName, lastName, email, password, birthday, address
+        firstName, middleName, lastName, email, password, birthday, address, storeName
     } = req.body;
 
     if (!firstName || !lastName || !email || !password) {
@@ -23,6 +23,7 @@ export const register = async (req: Request, res: Response) => {
             middleName,
             lastName,
             birthday,
+            storeName,
             address,
             email,
             passwordHash: hashedPassword,
