@@ -8,6 +8,7 @@ node_modules/
 dist/
 web-build/
 expo-env.d.ts
+server/
 
 # Native
 .kotlin/
@@ -42,4 +43,3 @@ app-example
 /ios
 /android
 
-/server
