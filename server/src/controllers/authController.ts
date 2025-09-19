@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import type { AuthRequest } from "../middleware/auth.ts";
 import User from "../models/User.ts";
 
 export const register = async (req: Request, res: Response) => {
@@ -56,5 +57,42 @@ export const login = async (req: Request, res: Response) => {
         res.json({ token, user });
     } catch (error) {
         res.status(500).json({ message: "Server error, ", error })
+    }
+};
+
+export const getMe = async (req: AuthRequest, res: Response) => {
+    try {
+        const user = await User.findById(req.user?._id).select("-passwordHash");
+        if (!user) return res.status(404).json({ message: "User not found" });
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+    }
+};
+
+// PUT update current user
+export const updateMe = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user?._id) return res.status(401).json({ message: "Unauthorized" });
+
+        const updates = req.body;
+
+        // Optional: hash password if included
+        if (updates.password) {
+            updates.passwordHash = await bcrypt.hash(updates.password, 10);
+            delete updates.password;
+        }
+
+        const user = await User.findByIdAndUpdate(req.user._id, updates, {
+            new: true,
+            runValidators: true,
+        });
+
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        res.json(user);
+    } catch (error) {
+        console.error("Update profile error:", error);
+        res.status(500).json({ message: "Failed to update profile", error });
     }
 };

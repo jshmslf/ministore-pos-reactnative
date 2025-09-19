@@ -107,17 +107,6 @@ export default function InventoryTab() {
         }
     };
 
-    // delete
-    const handleDelete = async (id: string) => {
-        try {
-            await API.delete(`/products/${id}`);
-            fetchProducts(); // refresh list
-        } catch (err) {
-            console.error("Error deleting product:", err);
-            Alert.alert("Error", "Failed to delete product.");
-        }
-    };
-
     // show details
     const handlePress = (product: Product) => {
         setSelectedProduct(product);

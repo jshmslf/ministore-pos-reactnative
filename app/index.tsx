@@ -13,10 +13,8 @@ export default function Index() {
         const token = await AsyncStorage.getItem("token");
 
         if (token) {
-          // ✅ token exists → go to dashboard
           router.replace("/dashboard");
         } else {
-          // ❌ no token → go to login
           router.replace("/auth/login");
         }
       } catch (error) {
@@ -38,5 +36,5 @@ export default function Index() {
     );
   }
 
-  return null; // nothing, it redirects automatically
+  return null;
 }

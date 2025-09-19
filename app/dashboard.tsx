@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// ✅ Import tab components
 import DashboardTab from "@/components/screens/DashboardTab";
 import InventoryTab from "@/components/screens/InventoryTab";
 import ProfileTab from "@/components/screens/ProfileTab";
@@ -67,7 +66,7 @@ export default function Dashboard() {
             case "store":
                 return <StoreTab />;
             case "profile":
-                return <ProfileTab firstName={user?.firstName} />;
+                return <ProfileTab />;
             default:
                 return null;
         }

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "MiniStorePOS",
-    "slug": "MiniStorePOS",
+    "name": "SariPOS",
+    "slug": "SariPOS",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "ministorepos",
+    "scheme": "saripos",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.jshmslf.SariPOS"
     },
     "web": {
       "output": "static",
@@ -44,6 +45,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "bdf86610-2bd9-42ed-9f49-c06cbec1900f"
+      }
     }
   }
 }

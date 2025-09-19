@@ -1,4 +1,3 @@
-// app/tabs/DashboardTab.tsx
 import DashboardStats from "@/components/dashboard/DashboardStats";
 import API from "@/services/api";
 import React, { useEffect, useState } from "react";
@@ -15,15 +14,12 @@ interface Props {
 
 export default function DashboardTab({ firstName }: Props) {
     const [productCount, setProductCount] = useState(0);
+    const [salesToday, setSalesToday] = useState(0);
     const [refreshing, setRefreshing] = useState(false);
 
     // current date
-    const today = new Date().toLocaleDateString("en-US", {
-        weekday: "long",
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-    });
+    const today = new Date();
+    const todayStr = today.toISOString().split("T")[0]; // YYYY-MM-DD
 
     // fetch product count
     const fetchProductCount = async () => {
@@ -35,14 +31,25 @@ export default function DashboardTab({ firstName }: Props) {
         }
     };
 
+    // fetch sales today
+    const fetchSalesToday = async () => {
+        try {
+            const { data } = await API.get("/sales/today");
+            setSalesToday(data.totalToday);
+        } catch (err) {
+            console.error("Error fetching sales today:", err);
+        }
+    };
+
     useEffect(() => {
         fetchProductCount();
+        fetchSalesToday();
     }, []);
 
     // handle refresh
     const onRefresh = async () => {
         setRefreshing(true);
-        await fetchProductCount();
+        await Promise.all([fetchProductCount(), fetchSalesToday()]);
         setRefreshing(false);
     };
 
@@ -58,12 +65,19 @@ export default function DashboardTab({ firstName }: Props) {
             <Text className="text-2xl font-bold text-accent mb-2">
                 Welcome {firstName || "User"} 👋
             </Text>
-            <Text className="text-neutral-400 mb-6">{today}</Text>
+            <Text className="text-neutral-400 mb-6">
+                {today.toLocaleDateString("en-US", {
+                    weekday: "long",
+                    month: "short",
+                    day: "2-digit",
+                    year: "numeric",
+                })}
+            </Text>
 
             {/* Stats */}
             <View className="flex-row justify-between">
                 <DashboardStats label="Products" value={productCount} />
-                <DashboardStats label="Sales Today" value={0} />
+                <DashboardStats label="Sales Today" value={salesToday} currency />
             </View>
         </ScrollView>
     );
